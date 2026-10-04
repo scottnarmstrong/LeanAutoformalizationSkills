@@ -4,6 +4,9 @@ A collection of skills for using Codex or Claude Code to formalize mathematics
 in Lean 4. The skills cover project design, Mathlib discovery, proof writing,
 performance, independent mathematical audits, and coordinated proof work.
 
+The examples and accumulated guidance lean toward PDE, probability, and
+analysis, but the workflows can in principle be used for any area of mathematics.
+
 The central goal is to prove **the theorem the mathematical source actually
 states**. A successful Lean build checks the formal statement; the audit
 workflows also check that its hypotheses, definitions, quantifiers, and
@@ -229,16 +232,18 @@ or cited external inputs. Each dependency records where the consumer uses its
 prerequisite in the source.
 
 ```mermaid
-flowchart TD
-    T[Main theorem] --> A[Estimate]
-    T --> B[Construction]
-    A --> L[Auxiliary lemma]
-    A --> X[Cited external result]
-    B --> H[Standing assumption]
+flowchart BT
+    A[Proposition 1] --> T[Main theorem]
+    B[Proposition 2] --> T
+    L[Auxiliary lemma] --> A
+    X[Cited external result] --> A
+    H[Standing assumption] --> B
+    H --> A
 ```
 
-Arrows point from a result to its prerequisites. `DEPS` means all listed inputs
-are required. Alternative proofs use separate `ROUTES` nodes: one route may
+Arrows in this illustration point from prerequisites to the results they support.
+In the database, a result's `DEPS` list records its prerequisites; all listed
+inputs are required. Alternative proofs use separate `ROUTES` nodes: one route may
 suffice. A coverage manifest accounts for source statements, reused displays,
 and substantive proof regions. Missing source arguments remain visible as
 `SOURCE_GAP` records.
