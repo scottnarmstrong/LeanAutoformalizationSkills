@@ -117,6 +117,109 @@ the exact declarations; the graph skill extracts the mathematical source
 dependencies; the orchestrator turns those dependencies into bounded proof
 tasks and audited results.
 
+## Suggested workflow for a larger formalization
+
+Use a capable reasoning model as the orchestrator. Fable 5.1 or Opus 5.5 are
+suggested Claude Code starting points for interpreting sources, designing
+declarations, and reviewing mathematical arguments. Choose worker models to
+match their tasks and your repository's model and resource policy. These are
+model examples, not requirements of the skills or a Lean benchmark ranking.
+
+### Launch the orchestrator in tmux
+
+For long sessions, especially over SSH, tmux makes the terminal easier to
+operate: you can detach and return while the session continues, and keep
+build logs or separate worker sessions in other panes. It is optional. See the
+[tmux getting-started guide](https://github.com/tmux/tmux/wiki/Getting-Started).
+
+First open a session in your Lean project:
+
+```bash
+cd /path/to/your/lean-project
+tmux new-session -s lean-formalization
+```
+
+Inside that session, launch Claude Code with one of these model choices:
+
+```bash
+claude --model claude-fable-5-1 --effort high
+# Alternatively: claude --model claude-opus-5-5 --effort high
+```
+
+Model access depends on your account and provider. Check `/model` and the
+[current model configuration documentation](https://code.claude.com/docs/en/model-config)
+if a model is unavailable or the model names have changed. The explicit IDs
+above select the named versions; aliases such as `fable` and `opus` can change
+over time.
+
+Detach with **Ctrl-b**, then **d**. Return with:
+
+```bash
+tmux attach-session -t lean-formalization
+```
+
+### Paste an orchestration brief
+
+Replace the bracketed fields with your actual source and goal:
+
+```text
+Act as the orchestrator using lean-orchestrator and the related installed
+skills. My source is [file and theorem/section labels]. My goal is [precise
+formalization scope]. Read this repository's instructions, toolchain, build
+policy, and existing progress records first.
+
+Start with a small end-to-end pilot. Reconstruct the source mathematics,
+propose the complete Lean declarations, obtain independent statement audits,
+and show me the exact declarations for approval before freezing them. Then
+build and independently review the source dependency graph. Keep source
+topology separate from evidence that Lean results are proved.
+
+Use Claude Code's native subagents for bounded Mathlib searches, proof tasks,
+and independent audits. Start with a small number of concurrent workers.
+Specify each worker's model explicitly: Sonnet is a starting point for routine
+searches and straightforward proof tasks; use Fable 5.1 or Opus 5.5 for difficult
+mathematical reasoning and statement audits, subject to repository policy.
+Give every worker the relevant skill instructions, exact target and source,
+allowed dependencies, owned files, validation command, and stop condition.
+
+Keep one owner for frozen declarations, the central graph, and integration.
+Workers may edit only their assigned files; reviewers must be independent of
+the work they audit. Report an inadequate API or source ambiguity instead of
+changing a frozen statement or adding a missing proof step as a hypothesis.
+Apply both audit seals and keep drafts visibly unproved and quarantined.
+
+Maintain durable progress and handoff records. After each integration, report
+the exact declarations checked, build and axiom results, audit findings, and
+remaining obligations. Preserve other sessions' work and dependency caches.
+```
+
+Ask Claude to delegate directly; it launches subagents through its native
+`Agent` tool. For reusable worker definitions, ask it to create project agents
+under `.claude/agents/` with explicit `model` and `skills` fields. Include the
+relevant skills in each worker's brief or preload them in its definition.
+See [Claude Code subagents](https://code.claude.com/docs/en/sub-agents).
+
+Codex users can reuse the mathematical brief with their available delegation
+mechanism and model choices; the CLI commands above are specific to Claude
+Code.
+
+### Optional: visible worker panes
+
+Ordinary subagents report back to the lead. For separately visible teammates,
+Claude Code's experimental **agent teams** support tmux split panes. Inside
+the tmux session, an optional launch is:
+
+```bash
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --model claude-fable-5-1 --effort high --teammate-mode tmux
+```
+
+Ask explicitly for a team with bounded roles, owned files, and independent
+reviewers. This changes delegation behavior and uses separate Claude sessions;
+use it when direct teammate coordination is useful. Team mode is experimental
+and has resumption limitations, so keep durable handoffs. Check the
+[current agent-team documentation](https://code.claude.com/docs/en/agent-teams)
+before adopting it.
+
 ## Source dependency graphs
 
 `build-proof-dependency-graph` records how the mathematical argument works.
