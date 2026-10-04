@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Elaboration Test"
+  short_description: "Profile Lean repository elaboration health"
+  default_prompt: "Use $lean-elaboration-test to run a reproducible elaboration benchmark and write a dated report."

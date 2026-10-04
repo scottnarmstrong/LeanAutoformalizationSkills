@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Naming Style"
+  short_description: "Mathlib naming and Lean code style"
+  default_prompt: "Use $lean-naming-style to align these Lean declarations, files, namespaces, and docstrings with Mathlib conventions."

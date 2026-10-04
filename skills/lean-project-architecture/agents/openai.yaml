@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Project Architecture"
+  short_description: "Design from exact frozen declarations"
+  default_prompt: "Use $lean-project-architecture to establish exact author-approved Lean declarations and faithful definition characterizations before dependency graphs and implementation APIs."

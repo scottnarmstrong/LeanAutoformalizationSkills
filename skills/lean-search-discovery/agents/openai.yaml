@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Search Discovery"
+  short_description: "Search Mathlib before reproving lemmas"
+  default_prompt: "Use $lean-search-discovery to find the existing Mathlib declaration or proof ingredients before attempting a new proof."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Workflow"
+  short_description: "Route safe Mathlib and Lake formalization work"
+  default_prompt: "Use $lean-workflow to follow this repository's Lean, Lake, source-fidelity, and dependency-build rules."

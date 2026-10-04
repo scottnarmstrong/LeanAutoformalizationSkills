@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Proof Patterns"
+  short_description: "Stable Lean proof patterns and tactics"
+  default_prompt: "Use $lean-proof-patterns to translate this mathematical argument into an explicit, stable, maintainable Lean proof."

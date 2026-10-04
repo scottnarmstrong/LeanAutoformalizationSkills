@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Lean Elaboration"
+  short_description: "Diagnose and repair Lean elaboration hot spots"
+  default_prompt: "Use $lean-elaboration to measure this Lean elaboration problem, apply the narrowest proven repair, and A/B the result."

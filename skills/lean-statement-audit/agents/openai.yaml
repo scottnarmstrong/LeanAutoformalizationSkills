@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Statement Audit"
+  short_description: "Audit exact Lean theorems and definitions"
+  default_prompt: "Use $lean-statement-audit to verify an exact manifest-bound Lean theorem or definition against its pinned source, including binders, body, characterization, consumption, and axioms, and return a fail-closed verdict."

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "manifest_state": "AUTHOR_APPROVED",
+  "seal_limits": { "max_body_lines": 3, "max_body_bytes": 240 },
+  "anchors": [
+    {
+      "id": "example_theorem_v1",
+      "kind": "theorem",
+      "author_approval": {
+        "approved_by": "AUTHOR_NAME",
+        "approved_at": "YYYY-MM-DD",
+        "approval_ref": "tracked-author-ruling-or-review",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "immutable-source-revision",
+        "range": "paper.tex:100-120"
+      },
+      "contract": { "id": "paper.example_theorem", "version": "1" },
+      "path": "Project/Frozen/ExampleTheorem.lean",
+      "export": "Project.exampleTheorem",
+      "implementation": {
+        "module": "Project.Internal.ExampleTheorem",
+        "export": "Project.Internal.exampleTheorem"
+      },
+      "split_policy": {
+        "source_group": "paper.example_theorem",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "tracked-author-split-ruling"
+      },
+      "abi_sha256": "REPLACE_WITH_64_LOWERCASE_HEX_ELABORATED_ABI_HASH",
+      "definition_closure": [
+        {
+          "path": "Project/Frozen/ExampleDefinition.lean",
+          "sha256": "REPLACE_WITH_64_LOWERCASE_HEX_WHOLE_FILE_HASH"
+        }
+      ],
+      "state": "DRAFT_SORRY",
+      "prefix_sha256": "REPLACE_WITH_64_LOWERCASE_HEX_PREFIX_HASH",
+      "suffix_sha256": "REPLACE_WITH_64_LOWERCASE_HEX_SUFFIX_HASH",
+      "draft_allowlist": { "frozen_paths": [], "audit_paths": [] }
+    },
+    {
+      "id": "example_definition_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "AUTHOR_NAME",
+        "approved_at": "YYYY-MM-DD",
+        "approval_ref": "tracked-author-ruling-or-review",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "immutable-source-revision",
+        "range": "paper.tex:90-99"
+      },
+      "contract": { "id": "paper.example_definition", "version": "1" },
+      "path": "Project/Frozen/ExampleDefinition.lean",
+      "export": "Project.exampleDefinition",
+      "split_policy": {
+        "source_group": "paper.example_definition",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "tracked-author-split-ruling"
+      },
+      "abi_sha256": "REPLACE_WITH_64_LOWERCASE_HEX_ELABORATED_ABI_HASH",
+      "definition_closure": [],
+      "state": "SEALED",
+      "full_file_sha256": "REPLACE_WITH_64_LOWERCASE_HEX_WHOLE_FILE_HASH"
+    }
+  ]
+}

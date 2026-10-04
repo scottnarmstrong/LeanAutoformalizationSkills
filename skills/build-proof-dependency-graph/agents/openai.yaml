@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Proof Dependency Graph"
+  short_description: "Anchor source topology to exact Lean declarations"
+  default_prompt: "Use $build-proof-dependency-graph only after I approve exact one-declaration frozen Lean anchors; build the source-dependency topology without reading implementation proofs or proof status."

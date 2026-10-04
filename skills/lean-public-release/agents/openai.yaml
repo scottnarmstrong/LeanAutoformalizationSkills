@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Public Release"
+  short_description: "Publish a Lean formalization as a clean public release"
+  default_prompt: "Use $lean-public-release to prepare and verify a Lean repository for public release, stopping at the explicit external-action gate."

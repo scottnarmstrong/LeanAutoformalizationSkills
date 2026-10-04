@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Orchestrator"
+  short_description: "Run source-anchored Lean proof campaigns"
+  default_prompt: "Use $lean-orchestrator to freeze exact author-approved declarations, graph their source dependencies, coordinate provider proofs, and independently audit each seal."

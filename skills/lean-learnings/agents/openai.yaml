@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lean Learnings"
+  short_description: "Reusable Lean 4 and Mathlib lessons"
+  default_prompt: "Use $lean-learnings to apply portable Lean and Mathlib lessons to this formalization task."
