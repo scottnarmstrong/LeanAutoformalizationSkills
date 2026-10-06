@@ -18,7 +18,7 @@ SKILL_NAMES = (
 )
 REQUIRED_FILES = (
     "AGENTS.md", "CLAUDE.md", "INDEX.md", "README.md", "PROVENANCE.md",
-    "SOURCES.md", "THIRD_PARTY_NOTICES.md", "LICENSES/Apache-2.0.txt",
+    "SOURCES.md", "THIRD_PARTY_NOTICES.md", "LICENSE", "LICENSES/Apache-2.0.txt",
     "scripts/install_skills.py",
 )
 REQUIRED_PYTHON = (

@@ -33,5 +33,6 @@ Public-source attributions are in [SOURCES.md](SOURCES.md). Adapted MIT
 material is identified inline and in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 References to the Apache-2.0 Lean-team workflow collection remain attributed;
 its license is included in [LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt).
-The original portions of this collection do not yet have a selected release
-license; third-party portions retain their own notices and license terms.
+The original portions of this collection are licensed under CC BY 4.0 (see
+[LICENSE](LICENSE)); third-party portions retain their own notices and license
+terms.

@@ -347,12 +347,24 @@ PYTHONDONTWRITEBYTECODE=1 python3 skills/lean-project-architecture/tests/test_ch
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests
 ```
 
-## Attribution and release license
+## License and attribution
 
-Public guidance sources are listed in [SOURCES.md](SOURCES.md). Adapted
-third-party material retains its notices in
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); adaptation details are in
+Copyright © 2026 Scott Armstrong. The original portions of this collection,
+including the skill instructions, references, templates, and Python helpers,
+are licensed under the
+[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+(CC BY 4.0); the full legal code is in [LICENSE](LICENSE). You may share and
+adapt this material for any purpose, including commercially, provided you give
+appropriate credit, link to the license, and indicate if changes were made.
+A suitable attribution is:
+
+> LeanAutoformalizationSkills by Scott Armstrong,
+> <https://github.com/scottnarmstrong/LeanAutoformalizationSkills>, licensed
+> under CC BY 4.0.
+
+Third-party portions retain their own license terms. Adapted MIT material and
+Apache-2.0-derived material are identified in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); the Apache license text is in
+[LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt). Public guidance sources are
+listed in [SOURCES.md](SOURCES.md), and adaptation details are in
 [PROVENANCE.md](PROVENANCE.md).
-
-A release license for the original portions of this collection has not yet
-been selected. Third-party portions retain their stated license terms.
