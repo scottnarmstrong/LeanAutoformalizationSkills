@@ -109,6 +109,43 @@ Registry-specific helper scripts from companion skills may be used only when
 they exist in the installed skill set and match the destination's current
 rules.
 
+## Hosted CI
+
+If the release ships continuous integration:
+
+- Use two workflows, each with a README badge under the title: one builds the
+  project and runs the axiom audit for every advertised theorem plus the module
+  and metadata checks; the other runs the comparator checks with the independent
+  kernel replay. Keep them manual-dispatch drafts until release, then trigger on
+  pushes and pull requests to the default branch. Give each workflow its own
+  build-cache key; restores may fall back to the other's prefix.
+- Free disk space first in every workflow that builds the project or runs
+  comparators. A hosted runner starts with roughly 14 GB free, and replaying an
+  exported solution over the full Mathlib closure in an independent kernel
+  exhausts it. The typical signature is that both builds and both exports
+  succeed, then the kernel replay dies with `no space left on device`. That is an
+  environment failure, not a verification failure, but it still fails the badge.
+  Put a step like this right after checkout:
+
+  ```yaml
+      - name: Free runner disk space
+        run: |
+          set -Eeuo pipefail
+          # Only remove preinstalled, unused SDKs on disposable hosted runners.
+          if [[ "${RUNNER_ENVIRONMENT:-}" == github-hosted ]]; then
+            sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+            sudo docker image prune --all --force > /dev/null || true
+          fi
+          df -h .
+          available_kib="$(df -Pk . | awk 'NR==2 {print $4}')"
+          test "$available_kib" -ge 20971520
+  ```
+
+- Read the failing step's log before diagnosing. A failing comparator job after
+  green local runs is usually a runner resource limit, not a statement mismatch.
+- Let every workflow finish green on the exact pushed commit before the
+  repository becomes public; badges show no status until a run completes.
+
 ## Reader-facing files
 
 The README should tell a new reader:
@@ -120,6 +157,12 @@ The README should tell a new reader:
 - which results belong to upstream dependencies;
 - the honest status of drafts, gaps, axioms, and excluded material;
 - the license and citation requirements.
+
+GitHub renders README math after HTML sanitizing. Inside math, write `\lt` and
+`\gt` instead of `<` or `>` directly before a letter or backslash
+(`\sum_{i<j}` breaks the formula). Escape literal `$` outside code in generated
+Markdown such as logs or transcripts. Check the rendered page on GitHub; local
+renderers do not reproduce either failure.
 
 Check `LICENSE`, citation metadata, repository metadata, and dependency
 licenses together. A code license does not automatically cover manuscript text,
