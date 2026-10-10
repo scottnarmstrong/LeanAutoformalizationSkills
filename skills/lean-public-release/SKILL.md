@@ -174,6 +174,18 @@ Write `\mathrm{Im}` or `\mathop{\mathrm{Res}}`, never `\operatorname`,
 for these before each sync. Check the rendered page on GitHub; local renderers do
 not reproduce these failures.
 
+A comparator CI workflow on GitHub-hosted `ubuntu-24.04` runners must install the sandbox before
+`lake comparator` runs; otherwise it fails with "bwrap is required to run lake comparator". Ubuntu 24.04 also restricts
+unprivileged user namespaces through AppArmor. Add this step before the comparator step:
+
+```yaml
+- name: Install bubblewrap for lake comparator's sandbox
+  run: |
+    sudo apt-get update -qq >/dev/null
+    sudo apt-get install -y -qq bubblewrap >/dev/null
+    sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+```
+
 Check `LICENSE`, citation metadata, repository metadata, and dependency
 licenses together. A code license does not automatically cover manuscript text,
 figures, datasets, or vendored third-party material.
