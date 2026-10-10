@@ -167,8 +167,12 @@ comments, not from this record.
 GitHub renders README math after HTML sanitizing. Inside math, write `\lt` and
 `\gt` instead of `<` or `>` directly before a letter or backslash
 (`\sum_{i<j}` breaks the formula). Escape literal `$` outside code in generated
-Markdown such as logs or transcripts. Check the rendered page on GitHub; local
-renderers do not reproduce either failure.
+Markdown such as logs or transcripts. GitHub's MathJax also rejects macros
+outside its allowlist ("The following macros are not allowed: operatorname").
+Write `\mathrm{Im}` or `\mathop{\mathrm{Res}}`, never `\operatorname`,
+`\DeclareMathOperator`, `\newcommand` or `\def`. Grep every shipped `.md` file
+for these before each sync. Check the rendered page on GitHub; local renderers do
+not reproduce these failures.
 
 Check `LICENSE`, citation metadata, repository metadata, and dependency
 licenses together. A code license does not automatically cover manuscript text,
