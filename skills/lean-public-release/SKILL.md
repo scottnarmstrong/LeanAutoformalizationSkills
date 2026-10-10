@@ -186,6 +186,10 @@ unprivileged user namespaces through AppArmor. Add this step before the comparat
     sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 ```
 
+README `lean` blocks that quote a theorem statement must be complete and verbatim. Never cut the source at its first `:=`:
+statements can contain `(by have := …)` or `let x := …`. Cut at the proof-region marker or at the `:=` that ends the
+signature line. Then check each block is a substring of its source file, followed only by `:=` and the proof.
+
 Check `LICENSE`, citation metadata, repository metadata, and dependency
 licenses together. A code license does not automatically cover manuscript text,
 figures, datasets, or vendored third-party material.
