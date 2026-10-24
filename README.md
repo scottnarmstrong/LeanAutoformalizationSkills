@@ -291,6 +291,10 @@ release it turns the ledger into `docs/ERRATA-AND-DEVIATIONS.md`, which
 separates printed errors from deliberate deviations. Each erratum is checked
 against the pinned source by an independent verifier before publication.
 
+When several agents build at once, the orchestrator also limits concurrent
+Lean compiles machine-wide and gives worktrees shared builds of the main
+branch, so workers do not overload CPU and memory.
+
 The dependency graph supplies the mathematical task structure. Separate Lean
 evidence identifies which prerequisites are actually available. Model choice,
 parallelism, build commands, cache policy, and file limits follow the target
@@ -324,6 +328,7 @@ The scripts travel with their skills:
 | --- | --- |
 | [proof_depgraph.py](skills/build-proof-dependency-graph/scripts/proof_depgraph.py) | Validate and render source dependency graphs |
 | [check_frozen_anchors.py](skills/lean-orchestrator/scripts/check_frozen_anchors.py) | Check manifest identity, frozen file boundaries, provider bodies, and draft quarantine |
+| [lean-compile-gate.sh](skills/lean-orchestrator/assets/lean-compile-gate.sh) | Limit concurrent Lean compiles machine-wide when several agents build at once |
 | [check_lean_modules.py](skills/lean-project-architecture/scripts/check_lean_modules.py) | Check the declared module-header and visibility policy |
 | [count_lean_lines.py](skills/lean-elaboration-test/scripts/count_lean_lines.py) | Count Lean files while separating comment-only material |
 | [install_skills.py](scripts/install_skills.py) | Install whole skill folders without replacing existing skills |
@@ -348,6 +353,7 @@ To check this checkout:
 python3 scripts/verify_repository.py
 PYTHONDONTWRITEBYTECODE=1 python3 skills/build-proof-dependency-graph/scripts/test_proof_depgraph.py
 PYTHONDONTWRITEBYTECODE=1 python3 skills/lean-orchestrator/tests/test_check_frozen_anchors.py
+PYTHONDONTWRITEBYTECODE=1 python3 skills/lean-orchestrator/tests/test_lean_compile_gate.py
 PYTHONDONTWRITEBYTECODE=1 python3 skills/lean-project-architecture/tests/test_check_lean_modules.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests
 ```

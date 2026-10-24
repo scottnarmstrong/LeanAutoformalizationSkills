@@ -1,6 +1,6 @@
 ---
 name: lean-orchestrator
-description: Coordinate a large multi-agent Lean 4 formalization around exact author-approved declarations, source-level dependency graphs, independent statement audits, bounded proof tasks, and safe landings. Use when planning or running parallel Lean work, reviewing proof status, landing integrated results, or repairing a campaign affected by statement drift or hypothesis smuggling.
+description: Coordinate a large multi-agent Lean 4 formalization around exact author-approved declarations, source-level dependency graphs, independent statement audits, bounded proof tasks, and safe landings. Use when planning or running parallel Lean work, reviewing proof status, landing integrated results, keeping concurrent builds from overloading the machine, or repairing a campaign affected by statement drift or hypothesis smuggling.
 ---
 
 # Lean formalization orchestrator
@@ -249,6 +249,18 @@ process presence is not evidence of an upstream write. Preserve other sessions'
 files and index entries; stage explicit paths, inspect the entire staged diff,
 and use the repository's safe landing procedure.
 
+## Machine resources
+
+Lake has no job limit, so per-agent build caps do not bound the total: a
+few concurrent `lake build`s oversubscribe CPU and memory. Limit compiles
+machine-wide with the bundled
+[`assets/lean-compile-gate.sh`](assets/lean-compile-gate.sh), reserving one
+slot for main-branch checks. Give worktrees copy-on-write builds on a snapshot
+of main, and refresh the snapshot after every merge. Merge ready branches
+often. Each worker runs one targeted, niced build at a time. Measure before
+acting, and make killed checks visible. Follow
+[`references/machine-resources.md`](references/machine-resources.md).
+
 ## Errata and deviations record
 
 Open a findings ledger when the sources are pinned, and record each candidate
@@ -272,7 +284,8 @@ Checks: <targeted compile, exact application, axioms, lint/ledger>
 Stop condition: <precise obstruction or budget>
 Hard rules: <repository-mandated text verbatim>; when the repository uses Lean
   modules, require a `module` header, `public import` for the interface, and
-  `@[expose]` where bodies must unfold
+  `@[expose]` where bodies must unfold; one targeted `nice -n 5 lake build
+  <Module>` at a time; a compile-gate wait is expected, not a hang
 Handoff: files; approach; exact checks/results; axioms; uncertainty; ledger update
 ```
 
