@@ -286,6 +286,11 @@ statements, disjoint write sets, and explicit handoffs. One orchestrator owns
 integration. Fresh reviewers try to refute proposed results against the source;
 the agent that wrote a proof does not certify it alone.
 
+The orchestrator also keeps a ledger of errors found in the sources. Before
+release it turns the ledger into `docs/ERRATA-AND-DEVIATIONS.md`, which
+separates printed errors from deliberate deviations. Each erratum is checked
+against the pinned source by an independent verifier before publication.
+
 The dependency graph supplies the mathematical task structure. Separate Lean
 evidence identifies which prerequisites are actually available. Model choice,
 parallelism, build commands, cache policy, and file limits follow the target

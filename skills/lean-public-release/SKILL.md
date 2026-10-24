@@ -158,6 +158,12 @@ The README should tell a new reader:
 - the honest status of drafts, gaps, axioms, and excluded material;
 - the license and citation requirements.
 
+Add `docs/ERRATA-AND-DEVIATIONS.md` and a README "Errata and deviations"
+section with counts per source, verified independently against the pinned
+sources before publication. Follow the `lean-orchestrator` skill's
+`references/errata-and-deviations.md`. Erratum vocabulary is scrubbed from code
+comments, not from this record.
+
 GitHub renders README math after HTML sanitizing. Inside math, write `\lt` and
 `\gt` instead of `<` or `>` directly before a letter or backslash
 (`\sum_{i<j}` breaks the formula). Escape literal `$` outside code in generated

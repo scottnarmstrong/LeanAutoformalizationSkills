@@ -249,6 +249,17 @@ process presence is not evidence of an upstream write. Preserve other sessions'
 files and index entries; stage explicit paths, inspect the entire staged diff,
 and use the repository's safe landing procedure.
 
+## Errata and deviations record
+
+Open a findings ledger when the sources are pinned, and record each candidate
+source error with its pinned location, quoted text, evidence, and status. Keep
+the Lean theorems that refute a printed claim or prove its correction as
+release evidence. Before release, write `docs/ERRATA-AND-DEVIATIONS.md` and a
+README section from the ledger. Have each erratum checked against the pinned
+PDF by its writer and then by an independent refute-first verifier. Repairs of
+the project's own statements are not errata. Follow
+[`references/errata-and-deviations.md`](references/errata-and-deviations.md).
+
 ## Worker brief
 
 ```text
