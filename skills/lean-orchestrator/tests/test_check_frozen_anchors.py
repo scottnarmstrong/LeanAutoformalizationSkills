@@ -206,6 +206,36 @@ class FrozenAnchorGuardTest(unittest.TestCase):
         self.write("Project/Prose.lean", "-- sorry is prose\n#check \"sorry\"\ntheorem prose : True := True.intro\n")
         self.assertEqual(self.check_manifest(), [])
 
+    def comparator(self, challenge="Comparator.Challenge", solution="Comparator.Solution"):
+        self.write("comparators/Example/comparator.json",
+                   '{"challenge_module": "%s", "solution_module": "%s"}' % (challenge, solution))
+        self.write("Comparator/Challenge.lean", "module\n\npublic section\ntheorem stated : True := by sorry\nend\n")
+        self.write("Comparator/Solution.lean", "module\n\npublic section\ntheorem stated : True := True.intro\nend\n")
+
+    def test_comparator_challenge_sorry_passes(self):
+        self.comparator()
+        self.assertEqual(self.check_manifest(), [])
+
+    def test_comparator_challenge_admit_fails(self):
+        self.comparator()
+        self.write("Comparator/Challenge.lean", "module\n\npublic section\ntheorem stated : True := by admit\nend\n")
+        self.assert_error("unauthorized `admit`")
+
+    def test_comparator_solution_sorry_fails(self):
+        self.comparator()
+        self.write("Comparator/Solution.lean", "module\n\npublic section\ntheorem stated : True := by sorry\nend\n")
+        self.assert_error("unauthorized `sorry`")
+
+    def test_comparator_challenge_equal_to_solution_fails(self):
+        self.comparator(solution="Comparator.Challenge")
+        self.assert_error("challenge_module must be a module name other than solution_module")
+
+    def test_imported_comparator_challenge_fails(self):
+        self.comparator()
+        self.write("Project/Consumer.lean", "module\n\nimport Comparator.Challenge\n")
+        self.assert_error("Challenge module Comparator.Challenge is imported by Project.Consumer")
+        self.assert_error("unauthorized `sorry`")
+
     def test_reverse_import_fails(self):
         self.write("Project/Internal/Target.lean", "import Project.Frozen.Target\ntheorem internalTarget : True := True.intro\n")
         self.assert_error("reverse-import")

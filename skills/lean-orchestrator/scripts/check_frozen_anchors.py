@@ -564,12 +564,48 @@ class Guard:
                     if provider_token.search(code):
                         self.fail(f"{anchor['id']}: DRAFT provider export used outside its provider and frozen anchor: {path.relative_to(self.root)}")
 
+    def comparator_challenges(self) -> set[Path]:
+        """The Challenge file named by the `challenge_module` of each tracked `comparator.json`.
+
+        A Comparator Challenge states its theorems with `sorry` by design; the comparator judges
+        the Solution. The Challenge must differ from the `solution_module`, and no project module
+        may import it, so its placeholders cannot flow into any proof.
+        """
+        found: set[Path] = set()
+        configs = sorted(path for path in self.root.rglob("comparator.json")
+                         if ".lake" not in path.parts and ".git" not in path.parts)
+        if not configs:
+            return found
+        modules, graph = self.project_module_graph()
+        for config in configs:
+            label = str(config.relative_to(self.root))
+            try:
+                data = json.loads(config.read_text(encoding="utf-8"))
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+                self.fail(f"{label}: cannot read: {exc}")
+                continue
+            module = data.get("challenge_module") if isinstance(data, dict) else None
+            if not isinstance(module, str) or not module or module == data.get("solution_module"):
+                self.fail(f"{label}: challenge_module must be a module name other than solution_module")
+                continue
+            path = self.path(module.replace(".", "/") + ".lean", f"{label}: challenge_module")
+            if path is None:
+                continue
+            importers = sorted(name for name, imports in graph.items() if module in imports)
+            if importers:
+                self.fail(f"{label}: Challenge module {module} is imported by {', '.join(importers)}")
+                continue
+            found.add(path)
+        return found
+
     def check_all_sorries(self) -> None:
+        challenges = self.comparator_challenges()
         for path in self.project_files():
             code = self.code_mask(self.read_utf8(path))
             allowed = self.allowed_sorry.get(path.resolve(), set())
             for match in PLACEHOLDER.finditer(code):
-                authorized = match.group() == "sorry" and (match.start(), match.end()) in allowed
+                authorized = match.group() == "sorry" and (
+                    (match.start(), match.end()) in allowed or path.resolve() in challenges)
                 if not authorized:
                     self.fail(f"unauthorized `{match.group()}` outside manifest-listed DRAFT proof region: {path.relative_to(self.root)}")
 

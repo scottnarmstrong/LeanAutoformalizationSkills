@@ -176,7 +176,9 @@ The audit must verify:
 - no hard proof step is an explicit, implicit, instance, or bundled hypothesis;
 - the provider actually consumes the intended predecessors;
 - every conditional premise is discharged at each application; and
-- project-owned declarations contain no unauthorized `sorryAx` or custom axiom.
+- project-owned declarations contain no unauthorized `sorryAx` or custom axiom,
+  and the kernel accepts every project constant on replay (an axiom report
+  alone is not a kernel check).
 
 Compilation is not a fidelity verdict. One extra premise fails as decisively as
 sixty-five. A producer for that premise does not repair the frozen statement;
@@ -248,6 +250,13 @@ stop, or refuse work merely because another Lean/Lake process is running;
 process presence is not evidence of an upstream write. Preserve other sessions'
 files and index entries; stage explicit paths, inspect the entire staged diff,
 and use the repository's safe landing procedure.
+
+Harden the landing guards against bypass. They need: a kernel replay; a
+forbidden-construct lint that matches anywhere in masked code; library
+isolation by allow-list over the transitive import closure; Comparator
+Challenge placeholders resolved from `comparator.json`; and a mutation suite
+that an independent auditor extends. Follow
+[`references/landing-guards.md`](references/landing-guards.md).
 
 ## Machine resources
 
